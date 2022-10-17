@@ -7,3 +7,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - First draft. Take a copy of error handling from Symfony 4.
+- Allow passing of additional HTML to show in the title

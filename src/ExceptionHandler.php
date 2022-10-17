@@ -57,13 +57,13 @@ class ExceptionHandler
      *
      * @return string The HTML content as a string
      */
-    public function getHtml($exception, Request $request)
+    public function getHtml($exception, $titleHTML = null)
     {
         if (!$exception instanceof FlattenException) {
             $exception = FlattenException::create($exception);
         }
 
-        return $this->decorate($this->getContent($exception, $request), $this->getStylesheet($exception));
+        return $this->decorate($this->getContent($exception, $titleHTML), $this->getStylesheet($exception));
     }
 
     /**
@@ -71,7 +71,7 @@ class ExceptionHandler
      *
      * @return string The content as a string
      */
-    public function getContent(FlattenException $exception, Request $request)
+    public function getContent(FlattenException $exception, $titleHTML)
     {
         switch ($exception->getStatusCode()) {
             case 404:
@@ -139,21 +139,13 @@ EOF
 
         $symfonyGhostImageContents = $this->getSymfonyGhostAsSvg();
 
-        $params = count($request->toArray()) > 0 ? json_encode($request->toArray()) : '';
-        if ($request->user()) {
-            $userInfo = "<h3 class=\"exception-message\">{$request->user()->username} ({$request->user()->name})</h3>";
-        } else {
-            $userInfo = '';
-        }
-
         return <<<EOF
             <div class="exception-summary">
                 <div class="container">
                     <div class="exception-message-wrapper">
                         <div class="exception-details">
                             <h1 class="break-long-words exception-message">$title</h1>
-                            <h2 class="exception-message">{$request->method()} {$request->fullUrl()} $params</h2>
-                            $userInfo
+                            $titleHTML
                         </div>
                         <div class="exception-illustration hidden-xs-down">$symfonyGhostImageContents</div>
                     </div>
