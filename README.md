@@ -23,6 +23,6 @@ This can be any additional information useful to your exception (e.g. request UR
 ```
 
 ```php
-$handler = new ExceptionHandler();
+$handler = new ExceptionHandler(true);
 $html = $handler->getHtml($this->exception, $extraHeadings);
 ```
