@@ -11,7 +11,7 @@
 
 namespace RickSelby\Laravel\ExceptionHtml;
 
-use Illuminate\Http\Request;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 
 /**
  * ExceptionHandler converts an exception to a Response object.
@@ -53,14 +53,18 @@ class ExceptionHandler
     /**
      * Gets the full HTML content associated with the given exception.
      *
-     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
+     * @param \Throwable|FlattenException $exception An \Exception or FlattenException instance
      *
      * @return string The HTML content as a string
      */
     public function getHtml($exception, $titleHTML = null)
     {
         if (!$exception instanceof FlattenException) {
-            $exception = FlattenException::create($exception);
+            if ($exception instanceof \Exception) {
+                $exception = FlattenException::create($exception);
+            } else {
+                $exception = FlattenException::createFromThrowable($exception);
+            }
         }
 
         return $this->decorate($this->getContent($exception, $titleHTML), $this->getStylesheet($exception));
