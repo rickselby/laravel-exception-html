@@ -17,7 +17,7 @@
   },
   "require-dev": {
     "graham-campbell/testbench": "6.*",
-    "phpunit/phpunit": "9.*",
+    "phpunit/phpunit": "10.*",
     "symfony/http-kernel": "^6.0"
   },
   "autoload": {
